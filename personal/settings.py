@@ -11,12 +11,13 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import django_heroku
+
 import dj_database_url
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATES_DIR = os.path.join(BASE_DIR,'templates')
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 # Base url to serve media files
 MEDIA_URL = '/media/'
@@ -31,17 +32,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # SECRET_KEY = 'f^v0$q1l)3e*36&f$ctpu_lki)ou2v(54d&ir3d3ac3^yfq0r9'
 
 import os
+
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'f^v0$q1l)3e*36&f$ctpu_lki)ou2v(54d&ir3d3ac3^yfq0r9')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
 
-
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = ['https://nasimportfolio.herokuapp.com', 'localhost']
-
 
 # Application definition
 
@@ -58,14 +58,13 @@ INSTALLED_APPS = [
     'blogs',
     'works',
     'django_summernote',
-   
-    
+
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
-   
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -73,7 +72,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-   
+
 ]
 
 ROOT_URLCONF = 'personal.urls'
@@ -96,22 +95,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'personal.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'personal_db',
-        'USER': 'nasim',
-        'PASSWORD': 'your password',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
-        'PORT': '2000',
-        
+        'PORT': '5432',
+
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -131,7 +128,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -145,16 +141,14 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
 
-#Location of static files
+# Location of static files
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
-STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles')
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())

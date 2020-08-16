@@ -1,29 +1,25 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
-from .forms import CommentForm
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
-from blogs.models import Post, Category_post, Comment
-from django.views.generic import ListView
-from django.db.models import Q
-   
+
+from blogs.models import Post, Comment
+from .forms import CommentForm
+
+
 # Create your views here.
 
 def blog_index(request):
     posts = Post.objects.filter(status=1).order_by('-created_on')
-   
-    
 
     paginator = Paginator(posts, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
+
     context = {
         'page_obj': page_obj,
     }
     return render(request, "blog_index.html", context)
-
 
 
 def blog_category(request, category_post):
@@ -32,25 +28,24 @@ def blog_category(request, category_post):
     ).order_by(
         '-created_on'
     )
-    
+
     paginator = Paginator(posts, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     context = {
         "category_post": category_post,
-         "page_obj": page_obj,
+        "page_obj": page_obj,
     }
     return render(request, "blog_category.html", context)
 
 
 def blog_detail(request, pk):
-    
     post = Post.objects.get(pk=pk)
-    
+
     post.visit_num += 1
     post.save()
-    
+
     comments = post.comments.filter(active=True, parent__isnull=True)
     if request.method == 'POST':
         # comment has been added
@@ -82,9 +77,7 @@ def blog_detail(request, pk):
             return HttpResponseRedirect(reverse('blog_detail', args=(post.pk,)))
     else:
         comment_form = CommentForm()
-    
-    
-    
+
     context = {
         "post": post,
         "comments": comments,
@@ -92,4 +85,3 @@ def blog_detail(request, pk):
     }
 
     return render(request, "blog_detail.html", context)
-
